@@ -1,0 +1,42 @@
+{	"extensionName": "Smart Servo",
+	"extensionPort": 0,
+	"sort":3,
+	"firmware":"1.0.0",
+	"javascriptURL":"js/smartservo.js",
+	"blockSpecs": [
+		["w", "reset servos %d.devId to the initial angle","resetAngle",1,
+		{"encode":"","setup":"mysmartservo.begin(115200);\nmysmartservo.assignDevIdRequest();\ndelay(50);\n","inc":"","def":"MeSmartServo mysmartservo(PORT5);\n","work":"mysmartservo.setInitAngle({0});\n","loop":""}],
+		
+		["w", "set smart servo %d.devId angle %d.angle at the speed of %n rpm","runServoAbsolute", 1, 90,30,
+		{"encode":"{d0}{s1}","setup":"mysmartservo.begin(115200);\nmysmartservo.assignDevIdRequest();\ndelay(50);\n","inc":"","def":"MeSmartServo mysmartservo(PORT5);\n","work":"mysmartservo.moveTo({0},{1},{2});\n","loop":""}],
+		
+		["w", "set smart servo %d.devId rotate %d.angle at the speed of %n rpm","runServoRelative", 1,90, 30,
+		{"encode":"{d0}{s1}","setup":"mysmartservo.begin(115200);\nmysmartservo.assignDevIdRequest();\ndelay(50);\n","inc":"","def":"MeSmartServo mysmartservo(PORT5);\n","work":"mysmartservo.move({0},{1},{2});\n","loop":""}],
+		
+		["w", "set smart servo %d.devId speed %d.speed","runServoAsDC", 1,255,
+		{"encode":"{d0}{s1}","setup":"mysmartservo.begin(115200);\nmysmartservo.assignDevIdRequest();\ndelay(50);\n","inc":"","def":"MeSmartServo mysmartservo(PORT5);\n","work":"mysmartservo.setPwmMove({0},{1});\n","loop":""}],
+		
+		["w", "set smart servo %d.devId LED red %d.ledValue green %d.ledValue blue %d.ledValue","runLED", 1,0,0,0,
+		{"encode":"{d0}{s1}","setup":"mysmartservo.begin(115200);\nmysmartservo.assignDevIdRequest();\ndelay(50);\n","inc":"","def":"MeSmartServo mysmartservo(PORT5);\n","work":"mysmartservo.setRGBLed({0},{1},{2},{3});\n","loop":""}],
+		
+		["R", "smart servo %d.devId %m.servoProperty","readServoProperty", 1,"Current",
+		{"encode":"{d0}{s1}","setup":"mysmartservo.begin(115200);\nmysmartservo.assignDevIdRequest();\ndelay(50);\n","inc":"","def":"MeSmartServo mysmartservo(PORT5);\n--separator--float getServoValue(int type)\n{\n	if(type==0)\n	{\n		return mysmartservo.getSpeedRequest({0});\n	}\n	else if(type==1)\n	{\n		return mysmartservo.getTempRequest({0});\n	}\n	else if(type==2)\n	{\n		return mysmartservo.getCurrentRequest({0});\n	}\n	else if(type==3)\n	{\n		return mysmartservo.getVoltageRequest({0});\n	}\n	else if(type==4)\n	{\n		return mysmartservo.getAngleRequest({0});\n	}\n}\n","work":"getServoValue({1})","loop":""}]
+		
+	],
+	"menus": {
+		"angle":[-180,-135,-90,-45,0, 45, 90, 135, 180],
+		"servoProperty":["Current", "Voltage", "Speed", "Angle", "Temperture"],
+		"ledValue":[0,20,60,150,255],
+		"devId":[1,2,3,4],
+		"speed":[-255,-100,-50,0,50,100,255]
+	},
+	"values":{
+		"Current":2,
+		"Voltage":3, 
+		"Speed":0, 
+		"Angle":4, 
+		"Temperture":1
+	},
+	"translators":{
+	}
+}
